@@ -1,362 +1,1140 @@
 <!DOCTYPE html>
-<html class="light" lang="tr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Araç Yönetim Paneli</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-<script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "primary": "#137fec",
-            "background-light": "#f6f7f8",
-            "background-dark": "#101922",
-          },
-          fontFamily: {
-            "display": ["Inter", "sans-serif"]
-          },
-          borderRadius: {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
-            "full": "9999px"
-          },
-        },
-      },
-    }
-  </script>
-<style>
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0,
-      'wght' 400,
-      'GRAD' 0,
-      'opsz' 24
-    }
-  </style>
+<html class="light" lang="tr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Araç Yönetim</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .max-h-96 { max-height: 24rem; }
+        /* Mobil uyumluluk için sidebar animasyonunu kolaylaştırmak adına ek CSS */
+        .lg\:ml-64-override { margin-left: 0; }
+        @media (min-width: 1024px) {
+             .lg\:ml-64-override { margin-left: 16rem; }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
 </head>
 <body class="font-display bg-background-light dark:bg-background-dark">
-<div class="relative flex min-h-screen w-full flex-col group/design-root">
-<div class="flex flex-1">
-<div class="flex flex-col w-64 bg-white dark:bg-slate-900/50 border-r border-slate-200 dark:border-slate-800 p-4">
-<div class="flex flex-col gap-4">
-<div class="flex items-center gap-3">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9dWGXJ2Bl_TZ7ONoxHl6w-lvNQ2FHBOtCszIbeQm4wBLN1dK40BPeSkdjBr9M-cqYt5eHOnzLJx3tq-ZY9cZB3AyXW-YW1z7gig_xq9eYcvU8pph2H8AyOIYQywvkEYVi7AdoGu9z_qocRtlFZGDivg43rB332Ty5HYG3vhGW5TgM70j9UxL5zHf2aXT70WHACbWh4TJSVwUhyRURBSPdrE4PZFxR4kxz4D_cY0DPnvPcFXa2svxZ-1ZFTmBxDPunLIknMAW2i0AL");'></div>
-<div class="flex flex-col">
-<h1 class="text-slate-900 dark:text-white text-base font-medium leading-normal">Admin Kullanıcı</h1>
-</div>
-</div>
-<div class="flex flex-col gap-2 mt-4">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
-<span class="material-symbols-outlined">local_shipping</span>
-<p class="text-sm font-medium leading-normal">Araç Yönetimi</p>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300" href="#">
-<span class="material-symbols-outlined text-slate-900 dark:text-white">bar_chart</span>
-<p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Raporlar</p>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300" href="#">
-<span class="material-symbols-outlined text-slate-900 dark:text-white">group</span>
-<p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Sürücüler</p>
-</a>
-</div>
-</div>
-<div class="flex flex-col gap-1 mt-auto">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300" href="#">
-<span class="material-symbols-outlined text-slate-900 dark:text-white">help</span>
-<p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Yardım</p>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300" href="#">
-<span class="material-symbols-outlined text-slate-900 dark:text-white">logout</span>
-<p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Çıkış Yap</p>
-</a>
-</div>
-</div>
-<main class="flex-1 p-8 overflow-y-auto">
-    <div class="max-w-7xl mx-auto">
-        <div class="flex flex-wrap justify-between items-center gap-4 mb-8">
-            <div class="flex flex-col gap-2">
-                <h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Araç Yönetim Paneli</h1>
-                <p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">Sistemdeki araçları yönetin, yeni araç ekleyin veya mevcut bilgileri güncelleyin.</p>
-            </div>
-            <div class="flex items-center gap-3 admin-only">
-                <label for="json-upload-input" class="px-4 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors flex items-center gap-2 cursor-pointer">
-                    <span class="material-symbols-outlined text-base">upload_file</span> JSON Yükle
-                    <input type="file" id="json-upload-input" accept=".json" style="display: none;">
-                </label>
-                <button id="json-export-button" class="px-4 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors flex items-center gap-2">
-                    <span class="material-symbols-outlined text-base">download</span> JSON Dışa Aktar
-                </button>
-            </div>
-        </div>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            
-            <div id="form-container" class="lg:col-span-3">
-                <div id="vehicle-form-card" class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 p-6 admin-only">
-                    <h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-6">Yeni Araç Ekle / Düzenle</h2>
-                    <form id="vehicle-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <input type="hidden" id="vehicle-id-to-edit" value="">
-                        <label class="flex flex-col">
-                            <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Plaka</p>
-                            <input id="vehicle-plaka" name="plaka" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="34 ABC 123" required/>
-                        </label>
-                        <label class="flex flex-col">
-                            <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Şoför</p>
-                            <select id="vehicle-sofor" name="sofor" class="form-select flex w-full min-w-0 flex-1 rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 p-3 text-base font-normal leading-normal" required>
-                                <option value="" disabled selected>Şoför Seçiniz</option>
-                                </select>
-                        </label>
-                        <label class="flex flex-col">
-                            <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Tip</p>
-                            <select id="vehicle-tip" name="tip" class="form-select flex w-full min-w-0 flex-1 rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 p-3 text-base font-normal leading-normal" required>
-                                <option>Kamyon</option>
-                                <option>Otomobil</option>
-                                <option>Tır</option>
-                                <option>Kamyonet</option>
-                                <option>Panelvan</option>
-                            </select>
-                        </label>
-                        <label class="flex flex-col">
-                            <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Marka</p>
-                            <input id="vehicle-marka" name="marka" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="Araç Markası" required/>
-                        </label>
-                        <label class="flex flex-col">
-                            <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Ruhsat Bitiş Tarihi</p>
-                            <input id="vehicle-ruhsatBitis" name="ruhsatBitis" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" type="date" required/>
-                        </label>
-                        <label class="flex flex-col">
-                            <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Poliçe Bitiş Tarihi</p>
-                            <input id="vehicle-policeBitis" name="policeBitis" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" type="date" required/>
-                        </label>
-                        <label class="flex flex-col">
-                            <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Muayene Tarihi</p>
-                            <input id="vehicle-muayeneBitis" name="muayeneBitis" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" type="date" required/>
-                        </label>
-                        <label class="flex flex-col col-span-1 md:col-span-2 lg:col-span-2">
-                            <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Not</p>
-                            <textarea id="vehicle-not" name="not" class="form-textarea flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="Araç ile ilgili ek notlar..." rows="3"></textarea>
-                        </label>
-                        <div class="flex items-center gap-4 col-span-1 md:col-span-2 lg:col-span-3 justify-end">
-                            <button class="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors" type="reset">Temizle</button>
-                            <button class="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary/90 transition-colors flex items-center justify-center gap-2" type="submit">
-                                <span class="material-symbols-outlined text-base">save</span> Kaydet
+
+    <div id="login-page" class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden" style="display: flex;">
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="flex flex-1 items-stretch">
+                <div class="relative hidden w-1/2 flex-col items-center justify-center bg-gray-900 lg:flex">
+                    <img class="absolute inset-0 h-full w-full object-cover opacity-30" data-alt="A modern blue sports car" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVDXu6JcZoAFWt3SnxX8Q7P0gxLQ87a3dJJ5KTVCMJbY5MGHqiwYs60_hMZfB2iiqwLaaQsdL_XXqOEeCzJ90HbnV0neybrpwASRA9BWEhU-Db6iG0rJCOmc9UU09y9kYQly25Gn7b1bdws0woz0VhPG_-z9s32uyaU-jMm85a0N6peapW_JHYOOUXfzJpPgutkbN3MBFrjVYWdcHiVp8etdNnPFTJ6kdUTSNe7VUnG7ig4CsbGGts7St5ZGKWQcf8FByAy6yfZs_f"/>
+                </div>
+                <main class="flex w-full flex-col items-center justify-center p-6 lg:w-1/2">
+                    <div class="w-full max-w-sm">
+                        <div class="flex flex-col gap-3 text-left">
+                            <p class="text-gray-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Hoş Geldiniz</p>
+                            <p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">Giriş yapmak için bilgilerinizi girin</p>
+                        </div>
+                        <form id="login-form" class="mt-8 flex flex-col gap-6">
+                            <label class="flex flex-col flex-1">
+                                <p class="text-gray-900 dark:text-white text-base font-medium leading-normal pb-2">Kullanıcı Adı veya E-posta</p>
+                                <input id="username" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal" placeholder="admin@filoyonet.com" type="email" value=""/>
+                            </label>
+                            <label class="flex flex-col flex-1">
+                                <p class="text-gray-900 dark:text-white text-base font-medium leading-normal pb-2">Şifre</p>
+                                <div class="relative flex w-full flex-1 items-stretch">
+                                    <input id="password" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-[15px] pr-12 text-base font-normal leading-normal" placeholder="şifre" type="password" value=""/>
+                                    <button id="toggle-password" class="absolute inset-y-0 right-0 flex items-center justify-center pr-4 text-gray-500 dark:text-gray-400" type="button">
+                                        <span class="material-symbols-outlined">visibility_off</span>
+                                    </button>
+                                </div>
+                            </label>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <input class="h-5 w-5 rounded border-gray-300 dark:border-gray-700 border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:border-gray-300 dark:focus:border-gray-700 focus:outline-none" id="remember-me" type="checkbox"/>
+                                    <label class="text-gray-900 dark:text-white text-sm font-normal leading-normal select-none" for="remember-me">Beni Hatırla</label>
+                                </div>
+                                <button class="text-sm font-medium leading-normal text-primary hover:underline" type="button">Şifremi Unuttum?</button>
+                            </div>
+                            <button class="mt-4 flex min-w-[84px] max-w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-16 py-4 px-12 flex-1 bg-gradient-to-br from-blue-500 to-blue-600 text-white text-2xl font-bold leading-normal tracking-[0.015em] shadow-lg shadow-blue-500/30 transition-all duration-300 ease-in-out hover:from-blue-600 hover:to-blue-700 hover:shadow-xl hover:shadow-blue-500/40 focus:outline-none focus:ring-4 focus:ring-blue-500/50 dark:focus:ring-offset-background-dark" type="submit">
+                                <span class="truncate">Giriş Yap</span>
                             </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div id="info-panel" class="lg:col-span-1">
-                <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 p-6 h-full">
-                    <h2 class="text-slate-900 dark:text-white text-lg font-bold mb-4 flex items-center gap-2">
-                        <span class="material-symbols-outlined text-xl text-primary">analytics</span> Kısa Bilgi Özeti
-                    </h2>
-                    <div class="flex flex-col gap-4 text-sm">
-                        
-                        <div>
-                            <p class="text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                                <span class="material-symbols-outlined text-base text-red-500">warning</span> 30 Gün Altı Kritik Araç:
-                            </p>
-                            <p id="info-critical-count" class="text-2xl font-bold text-red-500 mt-1">
-                                0
-                            </p>
-                        </div>
-                        <hr class="border-slate-200 dark:border-slate-800"/>
-                        
-                        <div>
-                            <p class="text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                                <span class="material-symbols-outlined text-base text-yellow-500">person_off</span> Şoför Atanmamış Araç:
-                            </p>
-                            <p id="info-unassigned-count" class="text-2xl font-bold text-yellow-500 mt-1">
-                                0
-                            </p>
-                        </div>
-                        <hr class="border-slate-200 dark:border-slate-800"/>
-                        
-                        <button class="w-full mt-auto px-4 py-2 text-sm rounded-lg text-primary border border-primary/50 hover:bg-primary/10 transition-colors font-semibold flex items-center justify-center gap-2">
-                            <span class="material-symbols-outlined text-base">bar_chart</span> Detaylı Raporlar
-                        </button>
+                        </form>
+                        <footer class="mt-16 text-center pt-8">
+                            <p class="text-xs text-gray-500 dark:text-gray-400"><span class="text-red-500">❤️</span> Açık Kaynak Olarak Geliştirilmiştir</p>
+                        </footer>
                     </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="mt-8">
-            <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800">
-                <div class="flex flex-wrap gap-4 justify-between items-center p-6 border-b border-slate-200 dark:border-slate-800">
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Kayıtlı Araçlar</h3>
-                    <div class="relative w-full max-w-sm">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">search</span>
-                        <input id="vehicle-search" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-11 placeholder:text-slate-400 dark:placeholder:text-slate-500 pl-10 pr-4 text-base font-normal leading-normal" placeholder="Plaka, şoför veya tip ara..."/>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <div id="vehicle-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-800 transition-all hover:shadow-lg hover:border-primary dark:hover:border-primary group" tabindex="0">
-                            <div class="p-4 cursor-pointer">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">Plaka</p>
-                                        <p class="text-xl font-bold text-slate-900 dark:text-white">34 VCD 456</p>
-                                    </div>
-                                    <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">Kamyon</span>
-                                </div>
-                                <div class="mt-4">
-                                    <p class="text-xs text-slate-500 dark:text-slate-400">Şoför</p>
-                                    <p class="text-base font-medium text-slate-700 dark:text-slate-300">Ahmet Yılmaz</p>
-                                </div>
-                            </div>
-                            <div class="max-h-0 overflow-hidden group-focus-within:max-h-96 transition-all duration-500 ease-in-out">
-                                <div class="border-t border-slate-200 dark:border-slate-800 p-4">
-                                    <h4 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4">Araç Detayları</h4>
-                                    <div class="grid grid-cols-2 gap-4 text-sm">
-                                        <div>
-                                            <p class="text-slate-500 dark:text-slate-400">Marka</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">Mercedes-Benz</p>
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-500 dark:text-slate-400">Muayene Tarihi</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">25.12.2024</p>
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-500 dark:text-slate-400">Ruhsat Bitiş</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">10.05.2025</p>
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-500 dark:text-slate-400">Poliçe Bitiş</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">15.06.2025</p>
-                                        </div>
-                                        <div class="col-span-2">
-                                            <p class="text-slate-500 dark:text-slate-400">Not</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">Bakımları yeni yapıldı.</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-end gap-2 mt-4">
-                                        <button class="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300">
-                                            <span class="material-symbols-outlined text-lg">edit</span>
-                                        </button>
-                                        <button class="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400">
-                                            <span class="material-symbols-outlined text-lg">delete</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="w-full text-center py-2 border-t border-slate-200 dark:border-slate-800 text-primary text-sm font-semibold group-focus-within:hidden">Detayları Gör</button>
-                        </div>
-                        <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-800 transition-all hover:shadow-lg hover:border-primary dark:hover:border-primary group" tabindex="0">
-                            <div class="p-4 cursor-pointer">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">Plaka</p>
-                                        <p class="text-xl font-bold text-slate-900 dark:text-white">06 ANK 789</p>
-                                    </div>
-                                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">Otomobil</span>
-                                </div>
-                                <div class="mt-4">
-                                    <p class="text-xs text-slate-500 dark:text-slate-400">Şoför</p>
-                                    <p class="text-base font-medium text-slate-700 dark:text-slate-300">Ayşe Kaya</p>
-                                </div>
-                            </div>
-                            <div class="max-h-0 overflow-hidden group-focus-within:max-h-96 transition-all duration-500 ease-in-out">
-                                <div class="border-t border-slate-200 dark:border-slate-800 p-4">
-                                    <h4 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4">Araç Detayları</h4>
-                                    <div class="grid grid-cols-2 gap-4 text-sm">
-                                        <div>
-                                            <p class="text-slate-500 dark:text-slate-400">Marka</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">Ford</p>
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-500 dark:text-slate-400">Muayene Tarihi</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">15.08.2025</p>
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-500 dark:text-slate-400">Ruhsat Bitiş</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">20.07.2026</p>
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-500 dark:text-slate-400">Poliçe Bitiş</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">25.07.2026</p>
-                                        </div>
-                                        <div class="col-span-2">
-                                            <p class="text-slate-500 dark:text-slate-400">Not</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">-</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-end gap-2 mt-4">
-                                        <button class="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300">
-                                            <span class="material-symbols-outlined text-lg">edit</span>
-                                        </button>
-                                        <button class="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400">
-                                            <span class="material-symbols-outlined text-lg">delete</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="w-full text-center py-2 border-t border-slate-200 dark:border-slate-800 text-primary text-sm font-semibold group-focus-within:hidden">Detayları Gör</button>
-                        </div>
-                        <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-800 transition-all hover:shadow-lg hover:border-primary dark:hover:border-primary group" tabindex="0">
-                            <div class="p-4 cursor-pointer">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">Plaka</p>
-                                        <p class="text-xl font-bold text-slate-900 dark:text-white">35 IZM 001</p>
-                                    </div>
-                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">Tır</span>
-                                </div>
-                                <div class="mt-4">
-                                    <p class="text-xs text-slate-500 dark:text-slate-400">Şoför</p>
-                                    <p class="text-base font-medium text-slate-700 dark:text-slate-300">Mehmet Öztürk</p>
-                                </div>
-                            </div>
-                            <div class="max-h-0 overflow-hidden group-focus-within:max-h-96 transition-all duration-500 ease-in-out">
-                                <div class="border-t border-slate-200 dark:border-slate-800 p-4">
-                                    <h4 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4">Araç Detayları</h4>
-                                    <div class="grid grid-cols-2 gap-4 text-sm">
-                                        <div>
-                                            <p class="text-slate-500 dark:text-slate-400">Marka</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">Volvo</p>
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-500 dark:text-slate-400">Muayene Tarihi</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">01.03.2024</p>
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-500 dark:text-slate-400">Ruhsat Bitiş</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">15.01.2025</p>
-                                        </div>
-                                        <div>
-                                            <p class="text-slate-500 dark:text-slate-400">Poliçe Bitiş</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">20.02.2025</p>
-                                        </div>
-                                        <div class="col-span-2">
-                                            <p class="text-slate-500 dark:text-slate-400">Not</p>
-                                            <p class="font-medium text-slate-700 dark:text-slate-300">Lastikler yeni değişti.</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-end gap-2 mt-4">
-                                        <button class="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300">
-                                            <span class="material-symbols-outlined text-lg">edit</span>
-                                        </button>
-                                        <button class="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400">
-                                            <span class="material-symbols-outlined text-lg">delete</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="w-full text-center py-2 border-t border-slate-200 dark:border-slate-800 text-primary text-sm font-semibold group-focus-within:hidden">Detayları Gör</button>
-                        </div>
-                        
-                    </div>
-                </div>
+                </main>
             </div>
         </div>
     </div>
-</main>
-</div>
-</div>
-</body></html>
+
+    <div id="app-container" class="relative flex min-h-screen w-full flex-col group/design-root" style="display: none;">
+        
+        <header class="sticky top-0 z-40 flex items-center justify-between px-4 py-3 bg-white dark:bg-slate-900/50 lg:hidden border-b border-slate-200 dark:border-slate-800">
+            <button id="mobile-menu-button" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-white">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <h1 class="text-xl font-bold text-primary">FiloYönet</h1>
+            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9dWGXJ2Bl_TZ7ONoxHl6w-lvNQ2FHBOtCszIbeQm4wBLN1dK40BPeSkdjBr9M-cqYt5eHOnzLJx3tq-ZY9cZB3AyXW-YW1z7gig_xq9eYcvU8pph2H8AyOIYQywvkEYVi7AdoGu9z_qocRtlFZGDivg43rB332Ty5HYG3vhGW5TgM70j9UxL5zHf2aXT70WHACbWh4TJSVwUhyRURBSPdrE4PZFxR4kxz4D_cY0DPnvPcFXa2svxZ-1ZFTmBxDPunLIknMAW2i0AL");'></div>
+        </header>
+
+        <div class="flex flex-1">
+            
+            <div id="sidebar" class="flex flex-col w-64 fixed inset-y-0 left-0 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 bg-white dark:bg-slate-900/50 border-r border-slate-200 dark:border-slate-800 p-4 lg:static lg:h-auto lg:flex-shrink-0">
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9dWGXJ2Bl_TZ7ONoxHl6w-lvNQ2FHBOtCszIbeQm4wBLN1dK40BPeSkdjBr9M-cqYt5eHOnzLJx3tq-ZY9cZB3AyXW-YW1z7gig_xq9eYcvU8pph2H8AyOIYQywvkEYVi7AdoGu9z_qocRtlFZGDivg43rB332Ty5HYG3vhGW5TgM70j9UxL5zHf2aXT70WHACbWh4TJSVwUhyRURBSPdrE4PZFxR4kxz4D_cY0DPnvPcFXa2svxZ-1ZFTmBxDPunLIknMAW2i0AL");'></div>
+                        <div class="flex flex-col">
+                            <h1 id="sidebar-user-name" class="text-slate-900 dark:text-white text-base font-medium leading-normal">Kullanıcı Adı</h1>
+                            <p id="sidebar-user-role" class="text-slate-500 dark:text-slate-400 text-sm">Rol</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2 mt-4">
+                        <a id="nav-araclar" class="nav-link flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary cursor-pointer" data-target="arac-yonetimi">
+                            <span class="material-symbols-outlined">local_shipping</span>
+                            <p class="text-sm font-medium leading-normal">Araç Yönetimi</p>
+                        </a>
+                        <a id="nav-raporlar" class="nav-link flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 cursor-pointer" data-target="raporlar">
+                            <span class="material-symbols-outlined text-slate-900 dark:text-white">bar_chart</span>
+                            <p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Raporlar</p>
+                        </a>
+                        <a id="nav-soforler" class="nav-link flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 cursor-pointer" data-target="sofor-yonetimi">
+                            <span class="material-symbols-outlined text-slate-900 dark:text-white">group</span>
+                            <p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Şoförler</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1 mt-auto">
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 cursor-pointer">
+                        <span class="material-symbols-outlined text-slate-900 dark:text-white">help</span>
+                        <p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Yardım</p>
+                    </a>
+                    <a id="logout-button" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 cursor-pointer">
+                        <span class="material-symbols-outlined text-slate-900 dark:text-white">logout</span>
+                        <p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Çıkış Yap</p>
+                    </a>
+                </div>
+            </div>
+            
+            <main class="flex-1 p-4 lg:p-8 overflow-y-auto w-full lg:w-[calc(100%-16rem)] lg:ml-64-override">
+
+                <div id="arac-yonetimi" class="content-section max-w-7xl mx-auto" style="display: block;">
+                    <div class="flex flex-wrap justify-between items-center gap-4 mb-8">
+                        <div class="flex flex-col gap-2">
+                            <h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Araç Yönetim Paneli</h1>
+                            <p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">Sistemdeki araçları yönetin, yeni araç ekleyin veya mevcut bilgileri güncelleyin.</p>
+                        </div>
+                        <div class="flex items-center gap-3 admin-only">
+                            <label for="json-upload-input" class="px-4 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors flex items-center gap-2 cursor-pointer">
+                                <span class="material-symbols-outlined text-base">upload_file</span> JSON Yükle
+                                <input type="file" id="json-upload-input" accept=".json" style="display: none;">
+                            </label>
+                            <button id="json-export-button" class="px-4 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base">download</span> JSON Dışa Aktar
+                            </button>
+                        </div>
+                    </div>
+                    <div id="vehicle-form-card" class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 p-6 admin-only">
+                        <h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-6">Yeni Araç Ekle / Düzenle</h2>
+                        <form id="vehicle-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <input type="hidden" id="vehicle-id-to-edit" value="">
+                            <label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Plaka</p>
+                                <input id="vehicle-plaka" name="plaka" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="34 ABC 123" required/>
+                            </label>
+                            <label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Şoför</p>
+                                <select id="vehicle-sofor" name="sofor" class="form-select flex w-full min-w-0 flex-1 rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 p-3 text-base font-normal leading-normal" required>
+                                    </select>
+                            </label>
+                            <label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Tip</p>
+                                <select id="vehicle-tip" name="tip" class="form-select flex w-full min-w-0 flex-1 rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 p-3 text-base font-normal leading-normal" required>
+                                    <option value="Kamyon">Kamyon</option>
+                                    <option value="Otomobil">Otomobil</option>
+                                    <option value="Tır">Tır</option>
+                                    <option value="Kamyonet">Kamyonet</option>
+                                    <option value="Panelvan">Panelvan</option>
+                                </select>
+                            </label>
+                            <label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Marka</p>
+                                <input id="vehicle-marka" name="marka" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="Araç Markası" required/>
+                            </label>
+                            <label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Ruhsat Bitiş Tarihi</p>
+                                <input id="vehicle-ruhsatBitis" name="ruhsatBitis" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" type="date" required/>
+                            </label><label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Poliçe Bitiş Tarihi</p>
+                                <input id="vehicle-policeBitis" name="policeBitis" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" type="date" required/>
+                            </label>
+                            <label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Muayene Tarihi</p>
+                                <input id="vehicle-muayeneBitis" name="muayeneBitis" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" type="date" required/>
+                            </label>
+                            <label class="flex flex-col col-span-1 md:col-span-2 lg:col-span-2">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Not</p>
+                                <textarea id="vehicle-not" name="not" class="form-textarea flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="Araç ile ilgili ek notlar..." rows="3"></textarea>
+                            </label>
+                            <div class="flex items-center gap-4 col-span-1 md:col-span-2 lg:col-span-3 justify-end">
+                                <button class="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors" type="reset">Temizle</button>
+                                <button class="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary/90 transition-colors flex items-center justify-center gap-2" type="submit">
+                                    <span class="material-symbols-outlined text-base">save</span> Kaydet
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mt-8">
+                        <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <div class="flex flex-wrap gap-4 justify-between items-center p-6 border-b border-slate-200 dark:border-slate-800">
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Kayıtlı Araçlar</h3>
+                                <div class="relative w-full max-w-sm">
+                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">search</span>
+                                    <input id="vehicle-search" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-11 placeholder:text-slate-400 dark:placeholder:text-slate-500 pl-10 pr-4 text-base font-normal leading-normal" placeholder="Plaka, şoför veya tip ara..."/>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <div id="vehicle-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sofor-yonetimi" class="content-section max-w-7xl mx-auto" style="display: none;">
+                    <div class="flex flex-col gap-2 mb-8">
+                        <h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Şoför Yönetim Paneli</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">Sistemdeki şoför kayıtlarını yönetin ve yetki belgelerini takip edin.</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 p-6 mb-8 admin-only">
+                        <h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-6">Yeni Şoför Ekle / Düzenle</h2>
+                        <form id="driver-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <input type="hidden" id="driver-id-to-edit" value="">
+                            <label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">İsim Soyisim</p>
+                                <input id="driver-isim" name="isim" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="Ad Soyad" required/>
+                            </label>
+                            <label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">E-posta</p>
+                                <input id="driver-eposta" name="eposta" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="e-posta@adres.com" type="email"/>
+                            </label>
+                            <label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Telefon</p>
+                                <input id="driver-telefon" name="telefon" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="5xx xxx xx xx" required/>
+                            </label>
+                            <label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Ehliyet No</p>
+                                <input id="driver-ehliyet" name="ehliyet" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="TR123456" required/>
+                            </label>
+                            <label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">SRC Belgesi Bitiş Tarihi</p>
+                                <input id="driver-srcBitis" name="srcBitis" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" type="date" required/>
+                            </label>
+                            <label class="flex flex-col">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Durum</p>
+                                <select id="driver-durum" name="durum" class="form-select flex w-full min-w-0 flex-1 rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-12 p-3 text-base font-normal leading-normal" required>
+                                    <option value="Aktif">Aktif</option>
+                                    <option value="Pasif">Pasif</option>
+                                </select>
+                            </label>
+                            <label class="flex flex-col col-span-1 md:col-span-2 lg:col-span-3">
+                                <p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Not</p>
+                                <textarea id="driver-not" name="not" class="form-textarea flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="Şoför ile ilgili ek notlar..." rows="2"></textarea>
+                            </label>
+                            <div class="flex items-center gap-4 col-span-1 md:col-span-2 lg:col-span-3 justify-end">
+                                <button class="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors" type="reset">Temizle</button>
+                                <button class="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary/90 transition-colors flex items-center justify-center gap-2" type="submit">
+                                    <span class="material-symbols-outlined text-base">save</span> Kaydet
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <div class="flex flex-wrap gap-4 justify-between items-center p-6 border-b border-slate-200 dark:border-slate-800">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Kayıtlı Şoförler</h3>
+                            <div class="relative w-full max-w-sm">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">search</span>
+                                <input id="driver-search" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary h-11 placeholder:text-slate-400 dark:placeholder:text-slate-500 pl-10 pr-4 text-base font-normal leading-normal" placeholder="İsim, e-posta veya telefon ara..."/>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-800">
+                                    <thead class="bg-slate-50 dark:bg-slate-800/50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Şoför Adı</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Telefon</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ehliyet No</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">SRC Bitiş Tarihi</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Durum</th>
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider admin-only">İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="driver-table-body" class="bg-white dark:bg-slate-900/50 divide-y divide-slate-200 dark:divide-slate-800">
+                                        </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-4 flex justify-end items-center" id="driver-pagination">
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="raporlar" class="content-section max-w-7xl mx-auto" style="display: none;">
+                    <div class="flex flex-wrap justify-between items-center gap-4 mb-8">
+                        <div class="flex flex-col gap-2">
+                            <h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Raporlama Paneli</h1>
+                            <p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">Araç verilerine dayalı detaylı raporlar ve istatistikler.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 p-5">
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Toplam Araç Sayısı</p>
+                            <p id="stat-total-vehicles" class="text-3xl font-bold text-primary mt-2">0</p>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 p-5">
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Ort. Ruhsat Bitiş Süresi</p>
+                            <p id="stat-avg-ruhsat" class="text-3xl font-bold text-slate-900 dark:text-white mt-2">0 gün</p>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 p-5">
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Ort. Poliçe Bitiş Süresi</p>
+                            <p id="stat-avg-police" class="text-3xl font-bold text-slate-900 dark:text-white mt-2">0 gün</p>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 p-5">
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Ort. Muayene Bitiş Süresi</p>
+                            <p id="stat-avg-muayene" class="text-3xl font-bold text-slate-900 dark:text-white mt-2">0 gün</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 p-6">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Araç Tipine Göre Dağılım</h3>
+                            <div class="h-80 flex justify-center items-center">
+                                <canvas id="vehicle-type-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 p-6">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Şoföre Göre Araç Sayısı</h3>
+                            <div class="h-80 flex justify-center items-center">
+                                <canvas id="driver-vehicle-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <div class="p-6 border-b border-slate-200 dark:border-slate-800">
+                             <div class="flex flex-wrap justify-between items-center mb-4">
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Poliçesi / Muayenesi 30 Gün İçinde Bitecek Araçlar</h3>
+                                <select id="critical-filter-select" class="form-select text-sm rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+                                    <option value="TÜMÜ">Belge Türü: Tümü</option>
+                                    <option value="Ruhsat">Ruhsat</option>
+                                    <option value="Poliçe">Poliçe</option>
+                                    <option value="Muayene">Muayene</option>
+                                </select>
+                            </div>
+                            <p class="text-sm text-red-500 dark:text-red-400 mt-1">Acil dikkat gerektiren araçların listesi.</p>
+                        </div>
+                        <div class="p-6">
+                             <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-800">
+                                    <thead class="bg-slate-50 dark:bg-slate-800/50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Araç Plakası</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Şoför</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Belge Türü</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Bitiş Tarihi</th>
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Kalan Gün</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="critical-vehicles-table-body" class="bg-white dark:bg-slate-900/50 divide-y divide-slate-200 dark:divide-slate-800">
+                                        <tr><td colspan="5" class="text-center py-4 text-slate-500">Kritik süresi yaklaşan araç bulunmamaktadır.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+        
+        <div id="sidebar-backdrop" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+    </div>
+
+    <script>
+        // --- 1. SİSTEM AYARLARI VE BAŞLANGIÇ VERİLERİ ---
+
+        const USERS = {
+            "admin@filoyonet.com": { password: "admin", name: "Admin Kullanıcı", role: "Admin", editable: true },
+            "user@filoyonet.com": { password: "user", name: "Mehmet Yılmaz", role: "Yönetici", editable: false }
+        };
+
+        const defaultDrivers = [
+            { id: 1, isim: "Ahmet Yılmaz", eposta: "ahmet@filo.com", telefon: "532 123 45 67", ehliyet: "TR123456", srcBitis: "2026-06-30", durum: "Aktif", not: "Uzun yol şoförü" },
+            { id: 2, isim: "Ayşe Kaya", eposta: "ayse@filo.com", telefon: "544 987 65 43", ehliyet: "TR654321", srcBitis: "2027-01-15", durum: "Aktif", not: "" },
+            { id: 3, isim: "Hasan Çelik", eposta: "hasan@filo.com", telefon: "555 111 22 33", ehliyet: "TR999888", srcBitis: "2024-11-20", durum: "Aktif", not: "SRC bitiş süresi yakın!" },
+        ];
+
+        const defaultVehicles = [
+            { id: 101, plaka: "34 VCD 456", sofor: "Ahmet Yılmaz", tip: "Kamyon", marka: "Mercedes-Benz", ruhsatBitis: "2025-05-10", policeBitis: "2025-06-15", muayeneBitis: "2024-12-25", not: "Bakımları yeni yapıldı." },
+            { id: 102, plaka: "06 ANK 789", sofor: "Ayşe Kaya", tip: "Otomobil", marka: "Ford", ruhsatBitis: "2026-07-20", policeBitis: "2026-07-25", muayeneBitis: "2025-08-15", not: "" },
+            { id: 103, plaka: "35 IZM 001", sofor: "Hasan Çelik", tip: "Tır", marka: "Volvo", ruhsatBitis: "2025-01-15", policeBitis: "2025-02-20", muayeneBitis: "2024-12-01", not: "Lastikler yeni değişti." },
+        ];
+
+        let vehicles = JSON.parse(localStorage.getItem('vehicles')) || defaultVehicles;
+        let drivers = JSON.parse(localStorage.getItem('drivers')) || defaultDrivers;
+        let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser')) || null;
+        let currentSection = localStorage.getItem('currentSection') || 'arac-yonetimi';
+        let criticalFilter = 'TÜMÜ'; 
+
+        // Verileri Local Storage'a kaydetme fonksiyonu
+        function saveToLocalStorage() {
+            localStorage.setItem('vehicles', JSON.stringify(vehicles));
+            localStorage.setItem('drivers', JSON.stringify(drivers));
+            localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+            localStorage.setItem('currentSection', currentSection);
+        }
+
+        // Tüm view'ları güncelleme fonksiyonu (entegrasyon için)
+        function renderAllViews() {
+            renderVehicleList();
+            renderDriverTable();
+            if(document.getElementById('raporlar').style.display !== 'none') {
+                 renderReports();
+            }
+        }
+
+        // --- 2. GENEL SİSTEM FONKSİYONLARI ---
+
+        function formatTurkishDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function calculateDaysRemaining(dateString) {
+            const oneDay = 24 * 60 * 60 * 1000;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); 
+            const expiryDate = new Date(dateString);
+            expiryDate.setHours(0, 0, 0, 0); 
+            const diffDays = Math.round((expiryDate.getTime() - today.getTime()) / oneDay);
+            return diffDays;
+        }
+
+        function getStatusBadge(days) {
+            let colorClass = 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300'; // Default: Safe
+            if (days <= 30) {
+                colorClass = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300'; // Warning: < 30 days
+            }
+            if (days <= 7) {
+                colorClass = 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'; // Critical: < 7 days
+            }
+            return `<span class="inline-flex items-center justify-center font-semibold text-xs rounded-full px-2.5 py-1 ${colorClass}">${days} Gün</span>`;
+        }
+        
+        // --- 3. NAVİGASYON VE YETKİLENDİRME (Mobil Toggle Eklendi) ---
+        
+        const sidebar = document.getElementById('sidebar');
+        const backdrop = document.getElementById('sidebar-backdrop');
+        
+        function toggleSidebar() {
+            const isHidden = sidebar.classList.contains('-translate-x-full');
+            if (isHidden) {
+                // Open sidebar
+                sidebar.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+            } else {
+                // Close sidebar
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+        }
+
+        function checkAuthentication() {
+            if (loggedInUser) {
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('app-container').style.display = 'flex';
+                updateUIForUser(loggedInUser);
+                showSection(currentSection);
+            } else {
+                document.getElementById('login-page').style.display = 'flex';
+                document.getElementById('app-container').style.display = 'none';
+            }
+        }
+
+        function updateUIForUser(user) {
+            document.getElementById('sidebar-user-name').textContent = user.name;
+            document.getElementById('sidebar-user-role').textContent = user.role;
+            const adminElements = document.querySelectorAll('.admin-only');
+            adminElements.forEach(el => {
+                el.style.display = user.editable ? (el.tagName === 'DIV' || el.tagName === 'FORM' || el.tagName === 'LABEL' ? 'flex' : (el.tagName === 'BUTTON' ? 'inline-flex' : 'block')) : 'none';
+            });
+
+            // Admin butonlarını kart içlerinde gizle
+            document.querySelectorAll('.admin-only-card-buttons').forEach(btnGroup => {
+                btnGroup.style.display = user.editable ? 'flex' : 'none';
+            });
+            // Admin tablolarını gizle
+            document.querySelectorAll('th.admin-only, td.admin-only').forEach(el => {
+                el.style.display = user.editable ? 'table-cell' : 'none';
+            });
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-primary/10', 'text-primary');
+                link.classList.add('hover:bg-slate-100', 'dark:hover:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+            });
+
+            const activeLink = document.querySelector(`[data-target="${sectionId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('bg-primary/10', 'text-primary');
+                activeLink.classList.remove('hover:bg-slate-100', 'dark:hover:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+            }
+
+            currentSection = sectionId;
+            saveToLocalStorage();
+
+            // *** Mobil desteği için: Sayfa geçişinde yan çubuğu kapat ***
+            if (window.innerWidth < 1024) { 
+                 toggleSidebar();
+            }
+
+            // Sadece aktif olan sayfanın içeriğini güncelle
+            if (sectionId === 'arac-yonetimi') renderVehicleList();
+            if (sectionId === 'sofor-yonetimi') renderDriverTable();
+            if (sectionId === 'raporlar') renderReports();
+        }
+
+        // --- 4. ARAÇ YÖNETİMİ FONKSİYONLARI ---
+
+        function renderVehicleList(searchTerm = '') {
+            const listContainer = document.getElementById('vehicle-list');
+            listContainer.innerHTML = '';
+            
+            // Şoförler select'ini güncelle
+            const soforSelect = document.getElementById('vehicle-sofor');
+            const selectedSofor = soforSelect.value;
+            soforSelect.innerHTML = '<option value="">Şoför Seçiniz</option>';
+            drivers.filter(d => d.durum === 'Aktif').forEach(driver => {
+                const option = document.createElement('option');
+                option.value = driver.isim;
+                option.textContent = driver.isim;
+                soforSelect.appendChild(option);
+            });
+             if (selectedSofor) soforSelect.value = selectedSofor;
+
+
+            const filteredVehicles = vehicles.filter(vehicle => {
+                const searchString = `${vehicle.plaka} ${vehicle.sofor} ${vehicle.tip} ${vehicle.marka}`.toLowerCase();
+                return searchString.includes(searchTerm.toLowerCase());
+            });
+
+            if (filteredVehicles.length === 0) {
+                listContainer.innerHTML = '<p class="text-slate-500 col-span-full">Kayıtlı araç bulunamadı.</p>';
+                return;
+            }
+
+            filteredVehicles.forEach(vehicle => {
+                const badgeColor = vehicle.tip === 'Kamyon' || vehicle.tip === 'Tır' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300' :
+                                vehicle.tip === 'Otomobil' ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300' :
+                                'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300';
+                
+                const card = document.createElement('div');
+                card.className = 'vehicle-card bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-800 transition-all hover:shadow-lg hover:border-primary dark:hover:border-primary group cursor-pointer';
+                card.dataset.id = vehicle.id;
+                card.innerHTML = `
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Plaka</p>
+                                <p class="text-xl font-bold text-slate-900 dark:text-white">${vehicle.plaka}</p>
+                            </div>
+                            <span class="text-xs font-medium px-2.5 py-0.5 rounded-full ${badgeColor}">${vehicle.tip}</span>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Şoför</p>
+                            <p class="text-base font-medium text-slate-700 dark:text-slate-300">${vehicle.sofor}</p>
+                        </div>
+                    </div>
+                    <div class="details-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                        <div class="border-t border-slate-200 dark:border-slate-800 p-4">
+                            <h4 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4">Araç Detayları</h4>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div><p class="text-slate-500 dark:text-slate-400">Marka</p><p class="font-medium text-slate-700 dark:text-slate-300">${vehicle.marka}</p></div>
+                                <div><p class="text-slate-500 dark:text-slate-400">Muayene Tarihi</p><p class="font-medium text-slate-700 dark:text-slate-300">${formatTurkishDate(vehicle.muayeneBitis)}</p></div>
+                                <div><p class="text-slate-500 dark:text-slate-400">Ruhsat Bitiş</p><p class="font-medium text-slate-700 dark:text-slate-300">${formatTurkishDate(vehicle.ruhsatBitis)}</p></div>
+                                <div><p class="text-slate-500 dark:text-slate-400">Poliçe Bitiş</p><p class="font-medium text-slate-700 dark:text-slate-300">${formatTurkishDate(vehicle.policeBitis)}</p></div>
+                                <div class="col-span-2"><p class="text-slate-500 dark:text-slate-400">Not</p><p class="font-medium text-slate-700 dark:text-slate-300">${vehicle.not || '-'}</p></div>
+                            </div>
+                            <div class="flex justify-end gap-2 mt-4 admin-only-card-buttons">
+                                <button data-id="${vehicle.id}" class="edit-vehicle-button p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300">
+                                    <span class="material-symbols-outlined text-lg">edit</span>
+                                </button>
+                                <button data-id="${vehicle.id}" class="delete-vehicle-button p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400">
+                                    <span class="material-symbols-outlined text-lg">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="toggle-details w-full text-center py-2 border-t border-slate-200 dark:border-slate-800 text-primary text-sm font-semibold">Detayları Gör</button>
+                `;
+                listContainer.appendChild(card);
+            });
+            
+            updateUIForUser(loggedInUser); 
+            
+            // Event listener'ları yeniden ekle
+            document.querySelectorAll('.toggle-details').forEach(button => {
+                button.removeEventListener('click', toggleVehicleDetails);
+                button.addEventListener('click', toggleVehicleDetails);
+            });
+            document.querySelectorAll('.edit-vehicle-button').forEach(button => {
+                button.removeEventListener('click', editVehicle);
+                button.addEventListener('click', editVehicle);
+            });
+            document.querySelectorAll('.delete-vehicle-button').forEach(button => {
+                button.removeEventListener('click', deleteVehicle);
+                button.addEventListener('click', deleteVehicle);
+            });
+        }
+        
+        function toggleVehicleDetails(e) {
+            const button = e.currentTarget;
+            const card = button.closest('.vehicle-card');
+            const details = card.querySelector('.details-content');
+            
+            if (details.classList.contains('max-h-0')) {
+                details.classList.remove('max-h-0');
+                details.classList.add('max-h-96');
+                button.textContent = 'Detayları Gizle';
+            } else {
+                details.classList.remove('max-h-96');
+                details.classList.add('max-h-0');
+                button.textContent = 'Detayları Gör';
+            }
+        }
+        
+        function saveVehicle(e) {
+            e.preventDefault();
+            if (!loggedInUser || !loggedInUser.editable) return alert("Bu işlemi yapma yetkiniz bulunmamaktadır.");
+
+            const form = e.currentTarget;
+            const idToEdit = document.getElementById('vehicle-id-to-edit').value;
+            const newVehicle = {
+                plaka: form['vehicle-plaka'].value,
+                sofor: form['vehicle-sofor'].value,
+                tip: form['vehicle-tip'].value,
+                marka: form['vehicle-marka'].value,
+                ruhsatBitis: form['vehicle-ruhsatBitis'].value,
+                policeBitis: form['vehicle-policeBitis'].value,
+                muayeneBitis: form['vehicle-muayeneBitis'].value,
+                not: form['vehicle-not'].value,
+            };
+
+            if (idToEdit) {
+                // Düzenleme işlemi
+                const index = vehicles.findIndex(v => v.id == idToEdit);
+                if (index !== -1) {
+                    vehicles[index] = { ...vehicles[index], ...newVehicle };
+                    alert(`Araç (${newVehicle.plaka}) başarıyla güncellendi.`);
+                }
+            } else {
+                // Yeni kayıt işlemi
+                newVehicle.id = Date.now(); // Basit ID ataması
+                vehicles.push(newVehicle);
+                alert(`Yeni araç (${newVehicle.plaka}) başarıyla eklendi.`);
+            }
+
+            saveToLocalStorage();
+            form.reset();
+            document.getElementById('vehicle-id-to-edit').value = '';
+            renderAllViews(); // Anında yansıtma
+        }
+
+        function editVehicle(e) {
+            if (!loggedInUser || !loggedInUser.editable) return alert("Bu işlemi yapma yetkiniz bulunmamaktadır.");
+            
+            const id = e.currentTarget.dataset.id;
+            const vehicle = vehicles.find(v => v.id == id);
+            
+            if (vehicle) {
+                document.getElementById('vehicle-id-to-edit').value = vehicle.id;
+                document.getElementById('vehicle-plaka').value = vehicle.plaka;
+                document.getElementById('vehicle-sofor').value = vehicle.sofor;
+                document.getElementById('vehicle-tip').value = vehicle.tip;
+                document.getElementById('vehicle-marka').value = vehicle.marka;
+                document.getElementById('vehicle-ruhsatBitis').value = vehicle.ruhsatBitis;
+                document.getElementById('vehicle-policeBitis').value = vehicle.policeBitis;
+                document.getElementById('vehicle-muayeneBitis').value = vehicle.muayeneBitis;
+                document.getElementById('vehicle-not').value = vehicle.not;
+                
+                alert(`Araç (${vehicle.plaka}) bilgileri düzenleme formuna yüklendi.`);
+                // Forma odaklan
+                document.getElementById('vehicle-form-card').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function deleteVehicle(e) {
+            if (!loggedInUser || !loggedInUser.editable) return alert("Bu işlemi yapma yetkiniz bulunmamaktadır.");
+
+            const id = e.currentTarget.dataset.id;
+            const vehicle = vehicles.find(v => v.id == id);
+
+            if (confirm(`Emin misiniz? ${vehicle.plaka} plakalı araç sistemden silinecektir.`)) {
+                vehicles = vehicles.filter(v => v.id != id);
+                saveToLocalStorage();
+                renderAllViews(); // Anında yansıtma
+                alert(`${vehicle.plaka} plakalı araç başarıyla silindi.`);
+            }
+        }
+
+        // --- 5. ŞOFÖR YÖNETİMİ FONKSİYONLARI ---
+
+        function renderDriverTable(searchTerm = '') {
+            const tableBody = document.getElementById('driver-table-body');
+            tableBody.innerHTML = '';
+            
+            const filteredDrivers = drivers.filter(driver => {
+                const searchString = `${driver.isim} ${driver.eposta} ${driver.telefon} ${driver.ehliyet}`.toLowerCase();
+                return searchString.includes(searchTerm.toLowerCase());
+            });
+
+            if (filteredDrivers.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-slate-500">Kayıtlı şoför bulunamadı.</td></tr>';
+                return;
+            }
+
+            filteredDrivers.forEach(driver => {
+                const statusBadge = driver.durum === 'Aktif' 
+                    ? `<span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">Aktif</span>`
+                    : `<span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">Pasif</span>`;
+                
+                const actions = `
+                    <button data-id="${driver.id}" class="edit-driver-button p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300">
+                        <span class="material-symbols-outlined text-lg">edit</span>
+                    </button>
+                    <button data-id="${driver.id}" class="delete-driver-button p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400">
+                        <span class="material-symbols-outlined text-lg">delete</span>
+                    </button>
+                `;
+                
+                const row = tableBody.insertRow();
+                row.className = 'border-b border-slate-200 dark:border-slate-800';
+                row.innerHTML = `
+                    <td class="px-6 py-4 font-medium text-slate-900 dark:text-white whitespace-nowrap">${driver.isim}</td>
+                    <td class="px-6 py-4 text-slate-700 dark:text-slate-300 whitespace-nowrap">${driver.telefon}</td>
+                    <td class="px-6 py-4 text-slate-700 dark:text-slate-300 whitespace-nowrap">${driver.ehliyet}</td>
+                    <td class="px-6 py-4 text-slate-700 dark:text-slate-300 whitespace-nowrap">${formatTurkishDate(driver.srcBitis)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${statusBadge}</td>
+                    <td class="px-6 py-4 text-right whitespace-nowrap admin-only">${actions}</td>
+                `;
+            });
+            
+            updateUIForUser(loggedInUser); // Admin kolonunu ve butonları gizle/göster
+            
+            // Event listener'ları yeniden ekle
+            document.querySelectorAll('.edit-driver-button').forEach(button => {
+                button.removeEventListener('click', editDriver);
+                button.addEventListener('click', editDriver);
+            });
+            document.querySelectorAll('.delete-driver-button').forEach(button => {
+                button.removeEventListener('click', deleteDriver);
+                button.addEventListener('click', deleteDriver);
+            });
+        }
+
+        function saveDriver(e) {
+            e.preventDefault();
+            if (!loggedInUser || !loggedInUser.editable) return alert("Bu işlemi yapma yetkiniz bulunmamaktadır.");
+
+            const form = e.currentTarget;
+            const idToEdit = document.getElementById('driver-id-to-edit').value;
+            const newDriver = {
+                isim: form['driver-isim'].value,
+                eposta: form['driver-eposta'].value,
+                telefon: form['driver-telefon'].value,
+                ehliyet: form['driver-ehliyet'].value,
+                srcBitis: form['driver-srcBitis'].value,
+                durum: form['driver-durum'].value,
+                not: form['driver-not'].value,
+            };
+
+            if (idToEdit) {
+                // Düzenleme işlemi
+                const index = drivers.findIndex(d => d.id == idToEdit);
+                if (index !== -1) {
+                    const oldName = drivers[index].isim;
+                    drivers[index] = { ...drivers[index], id: Number(idToEdit), ...newDriver };
+                    // İsim değiştiyse, araçlardaki şoför adını da güncelle
+                    if (oldName !== newDriver.isim) {
+                        vehicles.forEach(v => {
+                            if (v.sofor === oldName) v.sofor = newDriver.isim;
+                        });
+                    }
+                    alert(`Şoför (${newDriver.isim}) başarıyla güncellendi.`);
+                }
+            } else {
+                // Yeni kayıt işlemi
+                newDriver.id = Date.now();
+                drivers.push(newDriver);
+                alert(`Yeni şoför (${newDriver.isim}) başarıyla eklendi.`);
+            }
+
+            saveToLocalStorage();
+            form.reset();
+            document.getElementById('driver-id-to-edit').value = '';
+            renderAllViews(); // Anında yansıtma
+        }
+
+        function editDriver(e) {
+            if (!loggedInUser || !loggedInUser.editable) return alert("Bu işlemi yapma yetkiniz bulunmamaktadır.");
+            
+            const id = e.currentTarget.dataset.id;
+            const driver = drivers.find(d => d.id == id);
+            
+            if (driver) {
+                document.getElementById('driver-id-to-edit').value = driver.id;
+                document.getElementById('driver-isim').value = driver.isim;
+                document.getElementById('driver-eposta').value = driver.eposta;
+                document.getElementById('driver-telefon').value = driver.telefon;
+                document.getElementById('driver-ehliyet').value = driver.ehliyet;
+                document.getElementById('driver-srcBitis').value = driver.srcBitis;
+                document.getElementById('driver-durum').value = driver.durum;
+                document.getElementById('driver-not').value = driver.not;
+
+                alert(`Şoför (${driver.isim}) bilgileri düzenleme formuna yüklendi.`);
+            }
+        }
+
+        function deleteDriver(e) {
+            if (!loggedInUser || !loggedInUser.editable) return alert("Bu işlemi yapma yetkiniz bulunmamaktadır.");
+
+            const id = e.currentTarget.dataset.id;
+            const driver = drivers.find(d => d.id == id);
+
+            if (confirm(`Emin misiniz? ${driver.isim} adlı şoför sistemden silinecektir. Bu şoförün araçları 'Şoför Atanmamış' olarak işaretlenecektir.`)) {
+                // Şoföre ait araçları güncelle
+                vehicles.forEach(v => {
+                    if (v.sofor === driver.isim) v.sofor = 'Şoför Atanmamış';
+                });
+
+                drivers = drivers.filter(d => d.id != id);
+                saveToLocalStorage();
+                renderAllViews(); // Anında yansıtma
+                alert(`${driver.isim} adlı şoför başarıyla silindi.`);
+            }
+        }
+
+        // --- 6. RAPORLAMA FONKSİYONLARI ---
+
+        let typeChartInstance, driverChartInstance;
+
+        function renderReports() {
+            // 1. Temel İstatistikler
+            document.getElementById('stat-total-vehicles').textContent = vehicles.length;
+
+            const avgRuhsat = vehicles.length > 0 ? vehicles.reduce((sum, v) => sum + calculateDaysRemaining(v.ruhsatBitis), 0) / vehicles.length : 0;
+            const avgPolice = vehicles.length > 0 ? vehicles.reduce((sum, v) => sum + calculateDaysRemaining(v.policeBitis), 0) / vehicles.length : 0;
+            const avgMuayene = vehicles.length > 0 ? vehicles.reduce((sum, v) => sum + calculateDaysRemaining(v.muayeneBitis), 0) / vehicles.length : 0;
+
+            document.getElementById('stat-avg-ruhsat').textContent = `${Math.round(avgRuhsat)} gün`;
+            document.getElementById('stat-avg-police').textContent = `${Math.round(avgPolice)} gün`;
+            document.getElementById('stat-avg-muayene').textContent = `${Math.round(avgMuayene)} gün`;
+
+            // 2. Kritik Takip Tablosu
+            const criticalBody = document.getElementById('critical-vehicles-table-body');
+            criticalBody.innerHTML = '';
+            
+            let criticalList = [];
+
+            vehicles.forEach(vehicle => {
+                const daysRuhsat = calculateDaysRemaining(vehicle.ruhsatBitis);
+                if (daysRuhsat <= 30) {
+                    criticalList.push({ plaka: vehicle.plaka, sofor: vehicle.sofor, belge: "Ruhsat", bitis: vehicle.ruhsatBitis, kalanGun: daysRuhsat });
+                }
+                const daysPolice = calculateDaysRemaining(vehicle.policeBitis);
+                if (daysPolice <= 30) {
+                    criticalList.push({ plaka: vehicle.plaka, sofor: vehicle.sofor, belge: "Poliçe", bitis: vehicle.policeBitis, kalanGun: daysPolice });
+                }
+                const daysMuayene = calculateDaysRemaining(vehicle.muayeneBitis);
+                if (daysMuayene <= 30) {
+                    criticalList.push({ plaka: vehicle.plaka, sofor: vehicle.sofor, belge: "Muayene", bitis: vehicle.muayeneBitis, kalanGun: daysMuayene });
+                }
+            });
+
+            // Filtreleme Uygula
+            const filteredCriticalList = criticalList.filter(item => 
+                criticalFilter === 'TÜMÜ' || item.belge === criticalFilter
+            );
+
+            // Kalan güne göre sırala
+            filteredCriticalList.sort((a, b) => a.kalanGun - b.kalanGun);
+            
+            if (filteredCriticalList.length === 0) {
+                criticalBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-500">Kritik süresi yaklaşan araç bulunmamaktadır.</td></tr>';
+            } else {
+                filteredCriticalList.forEach(item => {
+                    const row = criticalBody.insertRow();
+                    row.className = 'border-b border-slate-200 dark:border-slate-800';
+                    row.innerHTML = `
+                        <th class="px-6 py-4 font-medium text-slate-900 dark:text-white whitespace-nowrap" scope="row">${item.plaka}</th>
+                        <td class="px-6 py-4 whitespace-nowrap">${item.sofor}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${item.belge}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${formatTurkishDate(item.bitis)}</td>
+                        <td class="px-6 py-4 text-right whitespace-nowrap">${getStatusBadge(item.kalanGun)}</td>
+                    `;
+                });
+            }
+
+            // 3. Grafik Verileri
+            
+            // Araç Tipine Göre Dağılım
+            const typeCounts = vehicles.reduce((acc, v) => {
+                acc[v.tip] = (acc[v.tip] || 0) + 1;
+                return acc;
+            }, {});
+            const typeLabels = Object.keys(typeCounts);
+            const typeData = Object.values(typeCounts);
+
+            // Şoföre Göre Araç Sayısı
+            const driverCounts = vehicles.reduce((acc, v) => {
+                acc[v.sofor] = (acc[v.sofor] || 0) + 1;
+                return acc;
+            }, {});
+            const driverLabels = Object.keys(driverCounts);
+            const driverData = Object.values(driverCounts);
+            
+            // Grafikleri çiz
+            renderVehicleTypeChart(typeLabels, typeData);
+            renderDriverVehicleChart(driverLabels, driverData);
+        }
+
+        function renderVehicleTypeChart(labels, data) {
+            const ctx = document.getElementById('vehicle-type-chart').getContext('2d');
+            if (typeChartInstance) typeChartInstance.destroy();
+
+            typeChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            '#137fec', '#2ECC71', '#F1C40F', '#E74C3C', '#9B59B6'
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        title: { display: false }
+                    }
+                }
+            });
+        }
+
+        function renderDriverVehicleChart(labels, data) {
+            const ctx = document.getElementById('driver-vehicle-chart').getContext('2d');
+            if (driverChartInstance) driverChartInstance.destroy();
+
+            driverChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Araç Sayısı',
+                        data: data,
+                        backgroundColor: '#137fec',
+                        borderColor: '#0b5da2',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, ticks: { precision: 0 } }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: false }
+                    }
+                }
+            });
+        }
+        
+        // --- 7. JSON İÇE/DIŞA AKTARMA FONKSİYONLARI (Admin Only) ---
+        
+        function exportDataToJSON() {
+            if (!loggedInUser || !loggedInUser.editable) return alert("Bu işlemi yapma yetkiniz bulunmamaktadır.");
+
+            const data = {
+                vehicles: vehicles,
+                drivers: drivers,
+                exportDate: new Date().toISOString()
+            };
+
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+
+            const exportFileDefaultName = 'filoyonet_verileri_' + new Date().toISOString().slice(0, 10) + '.json';
+
+            let linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+
+            alert('Araç ve şoför verileri başarıyla dışa aktarıldı.');
+        }
+
+        function importDataFromJSON(event) {
+            if (!loggedInUser || !loggedInUser.editable) return alert("Bu işlemi yapma yetkiniz bulunmamaktadır.");
+
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (importedData.vehicles && importedData.drivers) {
+                        vehicles = importedData.vehicles;
+                        drivers = importedData.drivers;
+                        saveToLocalStorage();
+                        renderAllViews();
+                        alert(`JSON dosyası başarıyla yüklendi. ${vehicles.length} araç ve ${drivers.length} şoför kaydı güncellendi.`);
+                    } else {
+                        alert('Hata: Yüklenen dosya geçerli bir FiloYönet JSON formatında değil (vehicles ve drivers alanları eksik).');
+                    }
+                } catch (error) {
+                    alert('Hata: Dosya içeriği okunamadı veya JSON formatı bozuk.');
+                    console.error('JSON İçe Aktarma Hatası:', error);
+                }
+            };
+            reader.readAsText(file);
+            // Dosya seçildikten sonra inputu temizle
+            event.target.value = null; 
+        }
+
+        // --- 8. EVENT LISTENERS VE BAŞLATMA ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthentication();
+
+            // *** MOBİL TOGGLE İŞLEMLERİ ***
+            const menuButton = document.getElementById('mobile-menu-button');
+            if (menuButton) {
+                menuButton.addEventListener('click', toggleSidebar);
+            }
+            if (backdrop) {
+                backdrop.addEventListener('click', toggleSidebar);
+            }
+
+
+            // Giriş Formu
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                const user = USERS[username];
+                if (user && user.password === password) {
+                    loggedInUser = user;
+                    saveToLocalStorage();
+                    checkAuthentication();
+                    alert(`Hoş geldiniz, ${user.name}!`);
+                } else {
+                    alert('Hatalı kullanıcı adı veya şifre.');
+                }
+            });
+
+            // Şifre Görünürlüğü
+            document.getElementById('toggle-password').addEventListener('click', function() {
+                const passwordInput = document.getElementById('password');
+                const icon = this.querySelector('.material-symbols-outlined');
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.textContent = 'visibility';
+                } else {
+                    passwordInput.type = 'password';
+                    icon.textContent = 'visibility_off';
+                }
+            });
+
+            // Çıkış Yap
+            document.getElementById('logout-button').addEventListener('click', () => {
+                loggedInUser = null;
+                localStorage.removeItem('loggedInUser');
+                alert('Başarıyla çıkış yaptınız.');
+                checkAuthentication();
+            });
+
+            // Navigasyon Bağlantıları
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    showSection(this.dataset.target);
+                });
+            });
+
+            // Araç Arama
+            document.getElementById('vehicle-search').addEventListener('input', (e) => {
+                renderVehicleList(e.target.value);
+            });
+
+            // Şoför Arama
+            document.getElementById('driver-search').addEventListener('input', (e) => {
+                renderDriverTable(e.target.value);
+            });
+
+            // Rapor Filtreleme
+            document.getElementById('critical-filter-select').addEventListener('change', (e) => {
+                criticalFilter = e.target.value;
+                renderReports();
+            });
+
+            // Form Gönderimleri (Admin yetkisine tabi)
+            document.getElementById('vehicle-form').addEventListener('submit', saveVehicle);
+            document.getElementById('driver-form').addEventListener('submit', saveDriver);
+            
+            // JSON İçe/Dışa Aktarma (Admin yetkisine tabi)
+            document.getElementById('json-export-button').addEventListener('click', exportDataToJSON);
+            document.getElementById('json-upload-input').addEventListener('change', importDataFromJSON);
+        });
+
+    </script>
+</body>
+</html>
