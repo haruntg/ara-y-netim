@@ -13,11 +13,6 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
         .max-h-96 { max-height: 24rem; }
-        /* Mobil uyumluluk için sidebar animasyonunu kolaylaştırmak adına ek CSS */
-        .lg\:ml-64-override { margin-left: 0; }
-        @media (min-width: 1024px) {
-             .lg\:ml-64-override { margin-left: 16rem; }
-        }
     </style>
     <script>
         tailwind.config = {
@@ -60,7 +55,7 @@
                         <form id="login-form" class="mt-8 flex flex-col gap-6">
                             <label class="flex flex-col flex-1">
                                 <p class="text-gray-900 dark:text-white text-base font-medium leading-normal pb-2">Kullanıcı Adı veya E-posta</p>
-                                <input id="username" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal" placeholder="admin@filoyonet.com" type="email" value=""/>
+                                <input id="username" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal" placeholder="Kullanıcı Adı" type="email" value=""/>
                             </label>
                             <label class="flex flex-col flex-1">
                                 <p class="text-gray-900 dark:text-white text-base font-medium leading-normal pb-2">Şifre</p>
@@ -92,18 +87,8 @@
     </div>
 
     <div id="app-container" class="relative flex min-h-screen w-full flex-col group/design-root" style="display: none;">
-        
-        <header class="sticky top-0 z-40 flex items-center justify-between px-4 py-3 bg-white dark:bg-slate-900/50 lg:hidden border-b border-slate-200 dark:border-slate-800">
-            <button id="mobile-menu-button" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-white">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
-            <h1 class="text-xl font-bold text-primary">FiloYönet</h1>
-            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9dWGXJ2Bl_TZ7ONoxHl6w-lvNQ2FHBOtCszIbeQm4wBLN1dK40BPeSkdjBr9M-cqYt5eHOnzLJx3tq-ZY9cZB3AyXW-YW1z7gig_xq9eYcvU8pph2H8AyOIYQywvkEYVi7AdoGu9z_qocRtlFZGDivg43rB332Ty5HYG3vhGW5TgM70j9UxL5zHf2aXT70WHACbWh4TJSVwUhyRURBSPdrE4PZFxR4kxz4D_cY0DPnvPcFXa2svxZ-1ZFTmBxDPunLIknMAW2i0AL");'></div>
-        </header>
-
         <div class="flex flex-1">
-            
-            <div id="sidebar" class="flex flex-col w-64 fixed inset-y-0 left-0 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 bg-white dark:bg-slate-900/50 border-r border-slate-200 dark:border-slate-800 p-4 lg:static lg:h-auto lg:flex-shrink-0">
+            <div class="flex flex-col w-64 bg-white dark:bg-slate-900/50 border-r border-slate-200 dark:border-slate-800 p-4">
                 <div class="flex flex-col gap-4">
                     <div class="flex items-center gap-3">
                         <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9dWGXJ2Bl_TZ7ONoxHl6w-lvNQ2FHBOtCszIbeQm4wBLN1dK40BPeSkdjBr9M-cqYt5eHOnzLJx3tq-ZY9cZB3AyXW-YW1z7gig_xq9eYcvU8pph2H8AyOIYQywvkEYVi7AdoGu9z_qocRtlFZGDivg43rB332Ty5HYG3vhGW5TgM70j9UxL5zHf2aXT70WHACbWh4TJSVwUhyRURBSPdrE4PZFxR4kxz4D_cY0DPnvPcFXa2svxZ-1ZFTmBxDPunLIknMAW2i0AL");'></div>
@@ -139,7 +124,7 @@
                 </div>
             </div>
             
-            <main class="flex-1 p-4 lg:p-8 overflow-y-auto w-full lg:w-[calc(100%-16rem)] lg:ml-64-override">
+            <main class="flex-1 p-8 overflow-y-auto">
 
                 <div id="arac-yonetimi" class="content-section max-w-7xl mx-auto" style="display: block;">
                     <div class="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -158,7 +143,7 @@
                         </div>
                     </div>
                     <div id="vehicle-form-card" class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 p-6 admin-only">
-                        <h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-6">Yeni Araç Ekle / Düzenle</h2>
+                        <h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-6"></h2>
                         <form id="vehicle-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             <input type="hidden" id="vehicle-id-to-edit" value="">
                             <label class="flex flex-col">
@@ -200,8 +185,8 @@
                                 <textarea id="vehicle-not" name="not" class="form-textarea flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="Araç ile ilgili ek notlar..." rows="3"></textarea>
                             </label>
                             <div class="flex items-center gap-4 col-span-1 md:col-span-2 lg:col-span-3 justify-end">
-                                <button class="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors" type="reset">Temizle</button>
-                                <button class="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary/90 transition-colors flex items-center justify-center gap-2" type="submit">
+                                <button class="px-5 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors" type="reset">Temizle</button>
+                                <button class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary/90 transition-colors flex items-center gap-2" type="submit">
                                     <span class="material-symbols-outlined text-base">save</span> Kaydet
                                 </button>
                             </div>
@@ -230,7 +215,7 @@
                         <p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">Sistemdeki şoför kayıtlarını yönetin ve yetki belgelerini takip edin.</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 p-6 mb-8 admin-only">
-                        <h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-6">Yeni Şoför Ekle / Düzenle</h2>
+                        <h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-6"></h2>
                         <form id="driver-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             <input type="hidden" id="driver-id-to-edit" value="">
                             <label class="flex flex-col">
@@ -265,8 +250,8 @@
                                 <textarea id="driver-not" name="not" class="form-textarea flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark focus:border-primary placeholder:text-slate-400 dark:placeholder:text-slate-500 p-3 text-base font-normal leading-normal" placeholder="Şoför ile ilgili ek notlar..." rows="2"></textarea>
                             </label>
                             <div class="flex items-center gap-4 col-span-1 md:col-span-2 lg:col-span-3 justify-end">
-                                <button class="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors" type="reset">Temizle</button>
-                                <button class="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary/90 transition-colors flex items-center justify-center gap-2" type="submit">
+                                <button class="px-5 py-2.5 rounded-lg text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors" type="reset">Temizle</button>
+                                <button class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary/90 transition-colors flex items-center gap-2" type="submit">
                                     <span class="material-symbols-outlined text-base">save</span> Kaydet
                                 </button>
                             </div>
@@ -359,7 +344,7 @@
                             <p class="text-sm text-red-500 dark:text-red-400 mt-1">Acil dikkat gerektiren araçların listesi.</p>
                         </div>
                         <div class="p-6">
-                             <div class="overflow-x-auto">
+                            <div class="overflow-x-auto">
                                 <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-800">
                                     <thead class="bg-slate-50 dark:bg-slate-800/50">
                                         <tr>
@@ -381,16 +366,14 @@
 
             </main>
         </div>
-        
-        <div id="sidebar-backdrop" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
     </div>
 
     <script>
         // --- 1. SİSTEM AYARLARI VE BAŞLANGIÇ VERİLERİ ---
 
         const USERS = {
-            "admin@filoyonet.com": { password: "admin", name: "Admin Kullanıcı", role: "Admin", editable: true },
-            "user@filoyonet.com": { password: "user", name: "Mehmet Yılmaz", role: "Yönetici", editable: false }
+            "admin@segment.com": { password: "admin123", name: "Admin Kullanıcı", role: "Admin", editable: true },
+            "user@segment.com": { password: "user123", name: "User", role: "Yönetici", editable: false }
         };
 
         const defaultDrivers = [
@@ -409,7 +392,7 @@
         let drivers = JSON.parse(localStorage.getItem('drivers')) || defaultDrivers;
         let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser')) || null;
         let currentSection = localStorage.getItem('currentSection') || 'arac-yonetimi';
-        let criticalFilter = 'TÜMÜ'; 
+        let criticalFilter = 'TÜMÜ'; // Raporlama filtresi için yeni global değişken
 
         // Verileri Local Storage'a kaydetme fonksiyonu
         function saveToLocalStorage() {
@@ -456,23 +439,7 @@
             return `<span class="inline-flex items-center justify-center font-semibold text-xs rounded-full px-2.5 py-1 ${colorClass}">${days} Gün</span>`;
         }
         
-        // --- 3. NAVİGASYON VE YETKİLENDİRME (Mobil Toggle Eklendi) ---
-        
-        const sidebar = document.getElementById('sidebar');
-        const backdrop = document.getElementById('sidebar-backdrop');
-        
-        function toggleSidebar() {
-            const isHidden = sidebar.classList.contains('-translate-x-full');
-            if (isHidden) {
-                // Open sidebar
-                sidebar.classList.remove('-translate-x-full');
-                backdrop.classList.remove('hidden');
-            } else {
-                // Close sidebar
-                sidebar.classList.add('-translate-x-full');
-                backdrop.classList.add('hidden');
-            }
-        }
+        // --- 3. NAVİGASYON VE YETKİLENDİRME ---
 
         function checkAuthentication() {
             if (loggedInUser) {
@@ -523,11 +490,6 @@
 
             currentSection = sectionId;
             saveToLocalStorage();
-
-            // *** Mobil desteği için: Sayfa geçişinde yan çubuğu kapat ***
-            if (window.innerWidth < 1024) { 
-                 toggleSidebar();
-            }
 
             // Sadece aktif olan sayfanın içeriğini güncelle
             if (sectionId === 'arac-yonetimi') renderVehicleList();
@@ -611,7 +573,7 @@
                 listContainer.appendChild(card);
             });
             
-            updateUIForUser(loggedInUser); 
+            updateUIForUser(loggedInUser); // Kart butonlarının yetkiye göre gizlenmesi
             
             // Event listener'ları yeniden ekle
             document.querySelectorAll('.toggle-details').forEach(button => {
@@ -751,12 +713,12 @@
                 const row = tableBody.insertRow();
                 row.className = 'border-b border-slate-200 dark:border-slate-800';
                 row.innerHTML = `
-                    <td class="px-6 py-4 font-medium text-slate-900 dark:text-white whitespace-nowrap">${driver.isim}</td>
-                    <td class="px-6 py-4 text-slate-700 dark:text-slate-300 whitespace-nowrap">${driver.telefon}</td>
-                    <td class="px-6 py-4 text-slate-700 dark:text-slate-300 whitespace-nowrap">${driver.ehliyet}</td>
-                    <td class="px-6 py-4 text-slate-700 dark:text-slate-300 whitespace-nowrap">${formatTurkishDate(driver.srcBitis)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${statusBadge}</td>
-                    <td class="px-6 py-4 text-right whitespace-nowrap admin-only">${actions}</td>
+                    <td class="px-6 py-4 font-medium text-slate-900 dark:text-white">${driver.isim}</td>
+                    <td class="px-6 py-4 text-slate-700 dark:text-slate-300">${driver.telefon}</td>
+                    <td class="px-6 py-4 text-slate-700 dark:text-slate-300">${driver.ehliyet}</td>
+                    <td class="px-6 py-4 text-slate-700 dark:text-slate-300">${formatTurkishDate(driver.srcBitis)}</td>
+                    <td class="px-6 py-4">${statusBadge}</td>
+                    <td class="px-6 py-4 text-right admin-only">${actions}</td>
                 `;
             });
             
@@ -908,10 +870,10 @@
                     row.className = 'border-b border-slate-200 dark:border-slate-800';
                     row.innerHTML = `
                         <th class="px-6 py-4 font-medium text-slate-900 dark:text-white whitespace-nowrap" scope="row">${item.plaka}</th>
-                        <td class="px-6 py-4 whitespace-nowrap">${item.sofor}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${item.belge}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">${formatTurkishDate(item.bitis)}</td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap">${getStatusBadge(item.kalanGun)}</td>
+                        <td class="px-6 py-4">${item.sofor}</td>
+                        <td class="px-6 py-4">${item.belge}</td>
+                        <td class="px-6 py-4">${formatTurkishDate(item.bitis)}</td>
+                        <td class="px-6 py-4 text-right">${getStatusBadge(item.kalanGun)}</td>
                     `;
                 });
             }
@@ -1054,16 +1016,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             checkAuthentication();
-
-            // *** MOBİL TOGGLE İŞLEMLERİ ***
-            const menuButton = document.getElementById('mobile-menu-button');
-            if (menuButton) {
-                menuButton.addEventListener('click', toggleSidebar);
-            }
-            if (backdrop) {
-                backdrop.addEventListener('click', toggleSidebar);
-            }
-
 
             // Giriş Formu
             document.getElementById('login-form').addEventListener('submit', function(e) {
